@@ -1,17 +1,15 @@
 version: 2.1
 
 orbs:
-
   python: circleci/python@2.1.1
 
 workflows:
-  sample:  
+  sample:
     jobs:
       - build-and-test
 
-
 jobs:
-  build-and-test:  
+  build-and-test:
     docker:
       - image: cimg/python:3.10.5
 
@@ -19,7 +17,15 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-          
+
+      - run:
+          name: Build and run Dockerfile
+          command: |
+            # Add commands to build and run Dockerfile here
+            # Example:
+            # docker build -t my_image .
+            # docker run my_image
+
       - run:
           name: Run tests
-          command: pytest
+          command: python3 unitest.py
