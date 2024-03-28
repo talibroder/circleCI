@@ -19,13 +19,19 @@ jobs:
           pkg-manager: pip
 
       - run:
-          name: Build and run Dockerfile
+          name: Docker build
           command: |
-            # Add commands to build and run Dockerfile here
-            # Example:
-            # docker build -t my_image .
-            # docker run my_image
+            sudo docker build -t ${IMG_NAME} .
+      
+      - run:
+          name: Run Docker image and test
+          command: |
+            docker run --rm -d -p 80:80 --name weather_app ${IMG_NAME}
+            python3 --version
+            python3 unitest.py
 
       - run:
-          name: Run tests
-          command: python3 unitest.py
+          name: Run Tests
+          command: |
+            pip install selenium
+            python3 selenium_location.py
